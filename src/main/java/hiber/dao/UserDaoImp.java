@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class UserDaoImp implements UserDao {
+public class UserDaoImp implements UserDao{
 
    @Autowired
    private SessionFactory sessionFactory;
@@ -20,10 +20,18 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   @SuppressWarnings("unchecked")
+
    public List<User> listUsers() {
-      TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
       return query.getResultList();
    }
 
+   @Override
+   public List<User> getUserByModSer(String model, int series) {
+      TypedQuery<User> query = sessionFactory.getCurrentSession()
+              .createQuery("FROM User WHERE car.model = :model AND car.series = :series", User.class)
+              .setParameter("model", model)
+              .setParameter("series", series);
+      return query.getResultList();
+   }
 }
