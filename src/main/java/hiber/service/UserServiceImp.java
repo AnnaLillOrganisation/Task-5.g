@@ -14,16 +14,27 @@ public class UserServiceImp implements UserService {
    @Autowired
    private UserDao userDao;
 
+
    @Transactional
    @Override
    public void add(User user) {
+
       userDao.add(user);
    }
 
    @Transactional(readOnly = true)
    @Override
    public List<User> listUsers() {
+
       return userDao.listUsers();
    }
+
+   @Transactional
+   @Override
+   public List<User> getUserByModSer(String model, int series) {
+      return userDao.getUserByModSer(model, series);
+   }
+
+
 
 }
